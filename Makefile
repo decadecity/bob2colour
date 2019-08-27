@@ -46,6 +46,14 @@ test-hurricane:
 	source venv.$(PROJECT)/bin/activate; \
 	bash scripts/test_hurricane.sh
 
+.PHONY: push-results-hurricane
+push-results-hurricane:
+	sftp home:/home/orde/data/web/bob_colourisation/checkpoints/hurricane2colour <<< $$'put checkpoints/hurricane2colour/latest*.pth'
+
+.PHONY: pull-results-hurricane
+pull-results-hurricane:
+	sftp home:/home/orde/data/web/bob_colourisation/checkpoints/hurricane2colour/latest*.pth checkpoints/hurricane2colour/
+
 .PHONY: download-bob
 download-bob:
 	test -d datasets/bob || bash datasets/download_bob2colour_dataset.sh bob
@@ -59,3 +67,11 @@ train-bob:
 test-bob:
 	source venv.$(PROJECT)/bin/activate; \
 	bash scripts/test_bob.sh
+
+.PHONY: push-results-bob
+push-results-bob:
+	sftp home:/home/orde/data/web/bob_colourisation/checkpoints/bob2colour <<< $$'put checkpoints/bob2colour/latest*.pth'
+
+.PHONY: pull-results-bob
+pull-results-bob:
+	sftp home:/home/orde/data/web/bob_colourisation/checkpoints/bob2colour/latest*.pth checkpoints/bob2colour/
